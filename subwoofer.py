@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python2
 
 import subprocess
 import atexit
@@ -19,7 +19,7 @@ headphonesBalance = 0
 # This helps the subwoofer get the correct left/right stereo in so it sounds like
 subwooferBalance = -25		# Default: -25
 # This is extra volume for the subwoofer, independent of what stereo balance it gets as input
-extraVolume = 11 		# Default: -11. New default: 11; 
+extraVolume = 15 		# Default: -11. New default: 11; 
 pulseaudio_detect_intervals = 5 # Default: 5. No. of seconds between pulseaudio detects.
 
 # These are needed so the detection of volume change / headphones plug in or out not be done
@@ -103,7 +103,7 @@ def calculate_speaker_balance(spk_vol, balance):
   valL = spk_vol * balL / 100
   valR = spk_vol * balR / 100
   
-  return [valL, valR]   
+  return [valL, valR]
 
 def set_speaker_volumes(volumes):
   volumes = calibrate100(volumes)

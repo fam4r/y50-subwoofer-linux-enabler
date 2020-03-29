@@ -7,7 +7,8 @@ fi
 
 echo ""
 echo "Installing alsa-tools, needed to toggle pins to enable subwoofer..."
-sudo apt-get install -y alsa-tools
+echo "SKIPPED!"
+#sudo apt-get install -y alsa-tools
 username="$(/usr/bin/getent passwd 1000 | /usr/bin/cut -d: -f1)"
 
 echo ""

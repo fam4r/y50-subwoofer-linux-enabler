@@ -3,9 +3,9 @@ Description=Lenovo Y50 Subwoofer Caretaker
 
 [Service]
 Type=simple
-ExecStart=/usr/bin/python /opt/subwoofer.py
-ExecStopPost=/usr/bin/python /opt/subwoofer.py exit
-Restart=always
+ExecStart=/usr/bin/python2 /opt/subwoofer.py
+ExecStopPost=/usr/bin/python2 /opt/subwoofer.py exit
+#Restart=always
 
 [Install]
 WantedBy=default.target

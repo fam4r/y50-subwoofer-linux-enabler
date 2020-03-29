@@ -1,21 +1,60 @@
-# Lenovo Y50 Subwoofer Enabler for Linux
+# Lenovo Y50 Subwoofer Enabler for Linux (Arch Linux fork)
 
 Hi!
 
-This script fixes the issue of the subwoofer of Lenovo Y50 laptops not having any sound on Linux distributions (in a dirty way!). Tested on Ubuntu 16.04 but should work on all Linux distributions.
+This script fixes the issue of the subwoofer of Lenovo Y50 laptops not having any sound on Linux distributions (in a dirty way!).
 
-The script `install.sh` uses `apt-get` once to install `alsa-tools`. If using a non-Debian distribution, use your package manager of choice and continue to use the script (or modify acordingly). Also, use common sense on the security part of these scripts and, if you can, inspect all three scripts (*which are small!*) before anything. (see **Warnings** below). 
+Tested on:
+- Ubuntu 16.04 
+- ArchLinux
+but should work on all Linux distributions.
+
+**NOTE on this fork**:
+
+- removed `apt-get` from installation script: install `alsa-tools` on your own
+  (instructions below)
+- specifies `env python2` in the script (more portable)
+- directly call python script in the service thanks to shebang (see above)
+
+## Components
+
+- `install.sh`
+- `subwoofer.py`
+- `subwoofer.service`
+- `subwoofer.sh`
+
+Please inspect all three scripts (*which are small!*) before anything. (see **Warnings** below).
+
+## Requirements
+
+Install `alsa-tools`:
+ - Ubuntu: `sudo apt-get install -y alsa-tools`
+ - Arch Linux: `sudo pacman -Syu alsa-tools`
+ - Other distro: use your package manager of choice and continue to use the script (or modify acordingly).
+
+Also, use common sense on the security part of these scripts.
+
+## Installation
+
+Run `install.sh`:
+- with **no arguments** to install the script as **user** service
+- with `system` argument to install the script as **system** service
+
 
 **Important:** Use simply `install.sh` to install the script as a **user** service. For me, that means it can detect pulseaudio, which I believe runs in the user space and not in the system space (at least for me). If it doesn't detect pulseaudio, the script wastes 8% of CPU constantly. You can also use`install.sh system` to install the script as a **system** service, because apparently Ubuntu does not work the same for everyone: https://github.com/dragosprju/y50-subwoofer-linux-enabler/pull/3 .
 
+## Configuration
+
 Open `subwoofer.py` to modify helpful options:
 
-* **speakerBalance** (values between `-100` and `100`): Sets the stereo volume balancing of the speakers. Mostly needed because the subwoofer itself is on the right of the laptop and if everything was 100% volume and no balance, it would sound debalanced anyway. (but you should check *extraVolume*)
-* **headphonesBalance** (values between `-100` and `100`): In case your headphones are a bit broken (like mine) and sound debalanced, this setting will help you. Using the normal sound settings panel from your Linux distribution won't work, since balancing is being reset every time you plug the headphones in or out.
-* **subwooferBalance** (values between `-100` and `100`): If at `0`, the subwoofer will get the left and right channels of the song you are playing and play them both at 100%. Set at `-25` (as it is by default) makes it so you hear 100% of the left channel but only 75% of the right channel.
-* **extraVolume** (values between `-100` and `100`): Helps balancing the whole sound as mentioned, since the subwoofer is placed on the right. This limits the subwoofer's volume instead and not the speakers'. 
-    * `0` is relative to general volume. Maximum subwoofer volume is achieved when general volume is at 100%;
-    * `100` is maximum subwoofer volume even if the general volume is low.
+- **speakerBalance** range [`-100`, `100`]: Sets the stereo volume balancing of the speakers. Mostly needed because the subwoofer itself is on the right of the laptop and if everything was 100% volume and no balance, it would sound debalanced anyway. (but you should check *extraVolume*)
+- **headphonesBalance** range [`-100`, `100`]: In case your headphones are a bit broken (like mine) and sound debalanced, this setting will help you. Using the normal sound settings panel from your Linux distribution won't work, since balancing is being reset every time you plug the headphones in or out.
+- **subwooferBalance** range [`-100`, `100`]:
+	- `0` -> the subwoofer will get the left and right channels of the song you are playing and play them both at 100%
+	- (default) `-25` -> makes it so you hear 100% of the left channel but only 75% of the right channel
+- **extraVolume** range [`-100`, `100`]: Helps balancing the whole sound as mentioned, since the subwoofer is placed on the right. This limits the subwoofer's volume instead and not the speakers'. 
+    - `0` is relative to general volume. Maximum subwoofer volume is achieved when general volume is at 100%;
+    - `100` is maximum subwoofer volume even if the general volume is low.
 
 Maximize it for a party by setting _extraVolume_ over `0 ` considerably. Default is `11`.
 
@@ -41,4 +80,4 @@ http://superuser.com/questions/975219/how-to-disable-power-saving-on-my-lenovo-y
 
 https://www.reddit.com/r/linuxquestions/comments/3ejkbe/how_do_i_make_my_lenovo_y50s_subwoofer_work_on/
 
-Have fun! 
+Have fun!
